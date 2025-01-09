@@ -5,14 +5,14 @@ exports.handler = async (event) => {
     const apiEndpoint = 'https://jsonplaceholder.typicode.com/todos/1'; 
   
     // Construct the full URL
-    const url = new URL(apiEndpoint);
-    url.pathname = path.replace(/^\/api/, ''); // Remove leading "/api"
-    if (queryStringParameters) {
-      url.search = new URLSearchParams(queryStringParameters).toString();
-    }
+    // const url = new URL(apiEndpoint);
+    // url.pathname = path.replace(/^\/api/, ''); // Remove leading "/api"
+    // if (queryStringParameters) {
+    //   url.search = new URLSearchParams(queryStringParameters).toString();
+    // }
   
     try {
-      const response = await fetch(url.toString());
+      const response = await fetch(apiEndpoint);
       const data = await response.json();
   
       return {
