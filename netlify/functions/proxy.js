@@ -6,7 +6,8 @@ exports.handler = async (event) => {
   
     // Construct the full URL
     const url = new URL(apiEndpoint);
-    url.pathname = path.replace(/^\/api/, ''); // Remove leading "/api"
+    // url.pathname = path.replace(/^\/api/, ''); // Remove leading "/api"
+    url.pathname = path.replace(".netlify/functions/proxy", ''); // Remove leading "/api"
     if (queryStringParameters) {
       url.search = new URLSearchParams(queryStringParameters).toString();
     }
