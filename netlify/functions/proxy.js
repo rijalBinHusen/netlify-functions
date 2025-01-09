@@ -2,17 +2,18 @@ exports.handler = async (event) => {
     const { path, queryStringParameters } = event;
   
     // Target API endpoint
-    const apiEndpoint = 'https://jsonplaceholder.typicode.com/todos/1'; 
+    const apiEndpoint = 'https://binhusenstore.my.id/'; 
   
     // Construct the full URL
-    // const url = new URL(apiEndpoint);
-    // url.pathname = path.replace(/^\/api/, ''); // Remove leading "/api"
-    // if (queryStringParameters) {
-    //   url.search = new URLSearchParams(queryStringParameters).toString();
-    // }
+    const url = new URL(apiEndpoint);
+    url.pathname = path.replace(/^\/api/, ''); // Remove leading "/api"
+    if (queryStringParameters) {
+      url.search = new URLSearchParams(queryStringParameters).toString();
+    }
   
+    console.log("the url: ", url.toString())
     try {
-      const response = await fetch(apiEndpoint);
+      const response = await fetch(url.toString());
       const data = await response.json();
   
       return {
