@@ -2,7 +2,7 @@ exports.handler = async (event) => {
     const { path, queryStringParameters } = event;
   
     // Target API endpoint
-    const apiEndpoint = 'https://binhusenstore.my.id/'; 
+    const apiEndpoint = 'https://binhusenstore.my.id'; 
   
     // Construct the full URL
     const url = new URL(apiEndpoint);
