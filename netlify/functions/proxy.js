@@ -16,8 +16,6 @@ exports.handler = async (event) => {
     }
 
     const data = await response.json();
-
-    console.log(response.headers.get("refresh"));
     return {
       statusCode: response.status, 
       body: JSON.stringify(data),
@@ -25,7 +23,6 @@ exports.handler = async (event) => {
         'Content-Type': 'application/json',
         'Set-cookie': response.headers.getSetCookie(),
         'Refresh': response.headers.get("refresh")
-
       },
     };
   } catch (error) {
