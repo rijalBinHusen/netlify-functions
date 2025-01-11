@@ -1,25 +1,42 @@
-exports.handler = async (event, context) => {
-  const { method, headers, body, path } = event;
-  const url = new URL(event.rawUrl.replace("/.netlify/functions/proxy", ""));
+exports.handler = async (event) => {
+  const { path, queryStringParameters } = event;
+  const apiEndpoint = 'https://binhusenstore.my.id/'; 
 
-  const response = await fetch(url, {
-    method,
-    headers,
-    body,
-  });
+  try {
+    const url = new URL(apiEndpoint);
+    url.pathname = path.replace(/^\/api/, ''); 
+    if (queryStringParameters) {
+      url.search = new URLSearchParams(queryStringParameters).toString();
+    }
 
-  const bodyResponse = await response.json();
+    const response = await fetch(url.toString());
 
-  return {
-    statusCode: response.status,
-    headers: {
-      'Content-Type': 'application/json',
-      'Set-cookie': response.headers.getSetCookie(),
-      'Refresh': response.headers.get("refresh")
-    },
-    body: bodyResponse,
-  };
+    if (!response.ok) { 
+      throw new Error(`API request failed with status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    console.log(response.headers.get("refresh"));
+    return {
+      statusCode: response.status, 
+      body: JSON.stringify(data),
+      headers: { 
+        'Content-Type': 'application/json',
+        'Set-cookie': response.headers.getSetCookie(),
+        'Refresh': response.headers.get("refresh")
+
+      },
+    };
+  } catch (error) {
+    console.error('Error:', error);
+    return {
+      statusCode: 500, 
+      body: JSON.stringify({ message: 'Error fetching data: ' + error.message }),
+    };
+  }
 };
+
 
 // exports.handler = async (event) => {
 //     const { path, queryStringParameters } = event;
